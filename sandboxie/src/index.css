@@ -273,7 +273,7 @@ body {
 }
 
 .dashboard-title {
-  font-family: 'Bungee', cursive;
+  font-family: 'Rajdhani', sans-serif;
   font-size: clamp(40px, 6vw, 64px);
   font-weight: 700;
   letter-spacing: 0.5px;
