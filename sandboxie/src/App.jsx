@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { LanguageProvider } from './context/LanguageContext';
 import Navigation from './components/Navigation';
+import SoftAurora from './components/SoftAurora';
 
 import Dashboard from './pages/Dashboard';
 import Module1 from './pages/Module1';
@@ -13,6 +14,13 @@ function App() {
   return (
     <LanguageProvider>
       <Router>
+        <SoftAurora 
+          color1="#6d28d9" 
+          color2="#a78bfa" 
+          speed={0.7} 
+          brightness={1.5} 
+          enableMouseInteraction={true} 
+        />
         <div className="app-shell">
           <Navigation />
           <main className="app-main">

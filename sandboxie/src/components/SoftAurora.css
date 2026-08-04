@@ -1,0 +1,11 @@
+.soft-aurora-container {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  pointer-events: none; /* Let clicks pass through to the app */
+  mix-blend-mode: screen;
+  opacity: 0.8;
+}
