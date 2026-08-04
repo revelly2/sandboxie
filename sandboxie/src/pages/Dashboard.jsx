@@ -4,7 +4,7 @@ import { useLanguage } from '../context/LanguageContext';
 import Folder from '../components/Folder';
 import MagicBento from '../components/MagicBento';
 import { WindowIcon, VirusIcon, ShieldIcon, BroomIcon } from '../components/GlassIcons';
-import TrueFocus from '../components/TrueFocus';
+import BlurText from '../components/BlurText';
 
 const modules = {
   il: [
@@ -111,16 +111,12 @@ const Dashboard = () => {
       <div className="dashboard-hero">
         <div className="dashboard-hero-glow"></div>
         <div className="dashboard-hero-content">
-          <h1 className="dashboard-title">
-            <TrueFocus 
-              sentence={lang === 'il' ? 'Agtukad iti|Kabaelam' : 'Level Up Your|Skills'}
-              separator="|"
-              manualMode={false}
-              blurAmount={5}
-              borderColor="#c084fc"
-              glowColor="rgba(192, 132, 252, 0.6)"
-              animationDuration={0.5}
-              pauseBetweenAnimations={1}
+          <h1 className="dashboard-title" style={{ display: 'flex', justifyContent: 'center' }}>
+            <BlurText 
+              text={lang === 'il' ? 'Agtukad iti Kabaelam' : 'Level Up Your Skills'}
+              delay={150}
+              animateBy="words"
+              direction="top"
             />
           </h1>
           <p className="dashboard-subtitle">
