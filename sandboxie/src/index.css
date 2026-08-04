@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bungee&family=Rajdhani:wght@500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
 
 /* ===========================
    DESIGN TOKENS
@@ -273,7 +273,7 @@ body {
 }
 
 .dashboard-title {
-  font-family: 'Rajdhani', sans-serif;
+  font-family: 'Bungee', cursive;
   font-size: clamp(40px, 6vw, 64px);
   font-weight: 700;
   letter-spacing: 0.5px;
