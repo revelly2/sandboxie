@@ -113,7 +113,7 @@ const Dashboard = () => {
         <div className="dashboard-hero-content">
           <h1 className="dashboard-title">
             <TrueFocus 
-              sentence={lang === 'il' ? 'Agtukad iti|Kabaelan mo' : 'Level Up Your|Skills'}
+              sentence={lang === 'il' ? 'Agtukad iti|Kabaelam' : 'Level Up Your|Skills'}
               separator="|"
               manualMode={false}
               blurAmount={5}

@@ -20,6 +20,7 @@
     color 0.3s ease;
   outline: none;
   user-select: none;
+  white-space: nowrap;
 }
 
 .focus-word.active {
