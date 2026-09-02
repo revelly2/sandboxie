@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
 import ModuleFooter from '../components/ModuleFooter';
+import ModuleQuiz from '../components/ModuleQuiz';
+import FeedbackForm from '../components/FeedbackForm';
 
 const Module1 = () => {
   const { lang } = useLanguage();
@@ -19,7 +21,10 @@ const Module1 = () => {
 
       {/* Header */}
       <div className="module-header">
-        <div className="module-header-tag">🪟 {lang === 'il' ? 'Modul 1' : 'Module 1'}</div>
+        <div className="module-header-tag">
+          🪟 {lang === 'il' ? 'Modul 1' : 'Module 1'}
+          <span className="module-reading-time">⏱ ~3 min</span>
+        </div>
         <h1 className="module-title">
           {lang === 'il' ? 'Panglukat ti Windows Sandbox' : 'Getting Started with Windows Sandbox'}
         </h1>
@@ -79,6 +84,12 @@ const Module1 = () => {
             : 'Virtualization must be enabled in your BIOS for the Sandbox to work.'}
         </div>
       </div>
+      <ModuleQuiz moduleId={1} />
+
+      <div style={{ marginTop: '32px' }}>
+        <FeedbackForm />
+      </div>
+
       <ModuleFooter moduleId={1} />
     </div>
   );

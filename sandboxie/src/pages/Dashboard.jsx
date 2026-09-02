@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
+import { useAuth } from '../context/AuthContext';
+import { supabase } from '../lib/supabase';
 import Folder from '../components/Folder';
 import MagicBento from '../components/MagicBento';
 import { WindowIcon, VirusIcon, ShieldIcon, BroomIcon } from '../components/GlassIcons';
 import BlurText from '../components/BlurText';
+import { useToast } from '../context/ToastContext';
+import { fireConfetti } from '../lib/confetti';
 
 const modules = {
   il: [
@@ -79,27 +83,66 @@ const modules = {
 
 const Dashboard = () => {
   const { lang } = useLanguage();
+  const { user, loading } = useAuth();
   const [progress, setProgress] = useState({});
   const navigate = useNavigate();
+  const toast = useToast();
+
+
 
   useEffect(() => {
-    try {
-      const savedProgress = localStorage.getItem('sandboxie_progress');
-      if (savedProgress) {
-        setProgress(JSON.parse(savedProgress));
-      }
-    } catch {
-      // corrupted localStorage — start fresh
-      setProgress({});
+    if (user) {
+      const fetchProgress = async () => {
+        const { data, error } = await supabase
+          .from('user_progress')
+          .select('module_id, status')
+          .eq('user_id', user.id);
+        
+        if (error) {
+          console.error('Failed to fetch progress:', error);
+          toast.error(lang === 'il' ? 'Saan a nabasa ti progreso' : 'Failed to load progress');
+          return;
+        }
+          
+        if (data) {
+          const progressMap = {};
+          data.forEach(item => {
+            progressMap[item.module_id] = item.status;
+          });
+          setProgress(progressMap);
+        }
+      };
+      fetchProgress();
     }
-  }, []);
+  }, [user]);
 
-  const toggleStatus = (e, moduleId, currentStatus) => {
+  const toggleStatus = async (e, moduleId, currentStatus) => {
     e.stopPropagation();
+    if (!user) return;
+
     const newStatus = currentStatus === 'completed' ? 'not_started' : 'completed';
     const updatedProgress = { ...progress, [moduleId]: newStatus };
     setProgress(updatedProgress);
-    localStorage.setItem('sandboxie_progress', JSON.stringify(updatedProgress));
+    
+    const { error } = await supabase.from('user_progress').upsert({
+      user_id: user.id,
+      module_id: moduleId,
+      status: newStatus,
+      updated_at: new Date().toISOString()
+    }, { onConflict: 'user_id,module_id' });
+
+    if (error) {
+      setProgress(progress); // revert
+      toast.error(lang === 'il' ? 'Adda napasamak a biddut' : 'Something went wrong');
+      return;
+    }
+
+    if (newStatus === 'completed') {
+      fireConfetti();
+      toast.success(lang === 'il' ? `Modul ${moduleId} — Nalpas! 🎉` : `Module ${moduleId} — Completed! 🎉`);
+    } else {
+      toast.info(lang === 'il' ? `Modul ${moduleId} — Naikkat ti marka` : `Module ${moduleId} — Unmarked`);
+    }
   };
 
   const completedCount = modules.en.filter(m => progress[m.id] === 'completed').length;

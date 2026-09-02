@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
 import ModuleFooter from '../components/ModuleFooter';
+import ModuleQuiz from '../components/ModuleQuiz';
+import FeedbackForm from '../components/FeedbackForm';
 
 const Module2 = () => {
   const { lang } = useLanguage();
@@ -19,7 +21,10 @@ const Module2 = () => {
 
       {/* Header */}
       <div className="module-header">
-        <div className="module-header-tag">🦠 {lang === 'il' ? 'Modul 2' : 'Module 2'}</div>
+        <div className="module-header-tag">
+          🦠 {lang === 'il' ? 'Modul 2' : 'Module 2'}
+          <span className="module-reading-time">⏱ ~4 min</span>
+        </div>
         <h1 className="module-title">
           {lang === 'il' ? 'Panangbigbig Kadagiti Virus ken Worms' : 'Identifying Viruses and Worms'}
         </h1>
@@ -85,6 +90,12 @@ const Module2 = () => {
           ))}
         </ol>
       </div>
+      <ModuleQuiz moduleId={2} />
+
+      <div style={{ marginTop: '32px' }}>
+        <FeedbackForm />
+      </div>
+
       <ModuleFooter moduleId={2} />
     </div>
   );

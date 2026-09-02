@@ -800,6 +800,60 @@ p {
 }
 
 /* ===========================
+   MOBILE MENU
+   =========================== */
+.mobile-menu-btn {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 6px;
+  border-radius: var(--radius-sm);
+  transition: color 0.2s, background 0.2s;
+}
+
+.mobile-menu-btn:hover {
+  color: var(--text-primary);
+  background: var(--bg-overlay);
+}
+
+.app-nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* ===========================
+   PAGE TRANSITION
+   =========================== */
+.app-main {
+  animation: pageFadeIn 0.35s ease-out;
+}
+
+@keyframes pageFadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===========================
+   READING TIME BADGE
+   =========================== */
+.module-reading-time {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-muted);
+  margin-left: 12px;
+}
+
+/* ===========================
    SCROLLBAR
    =========================== */
 ::-webkit-scrollbar {
@@ -822,6 +876,55 @@ p {
   }
   .app-nav-lang-btn span:not(.lang-globe) {
     display: none;
+  }
+
+  .mobile-menu-btn {
+    display: flex;
+    margin-left: auto;
+  }
+
+  .app-nav-links,
+  .app-nav-actions {
+    position: fixed;
+    top: var(--nav-height);
+    left: 0;
+    right: 0;
+    background: rgba(13, 15, 20, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border-subtle);
+    padding: 12px 24px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+    transform: translateY(-100%);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.3s var(--ease-smooth), opacity 0.3s;
+    z-index: 99;
+  }
+
+  .app-nav-links {
+    z-index: 100;
+  }
+
+  .app-nav-actions {
+    top: calc(var(--nav-height) + 52px);
+    z-index: 99;
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  .app-nav-links.is-open,
+  .app-nav-actions.is-open {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .app-nav-links .app-nav-link {
+    padding: 12px 16px;
+    font-size: 15px;
   }
 }
 
