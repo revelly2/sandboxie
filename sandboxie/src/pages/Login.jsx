@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import { useLanguage } from '../context/LanguageContext';
 import './Auth.css';
@@ -12,6 +12,9 @@ const Login = () => {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
   const { lang } = useLanguage();
+
+  const location = useLocation();
+  const from = location.state?.from?.pathname || '/';
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -27,7 +30,7 @@ const Login = () => {
       setError(error.message);
       setLoading(false);
     } else {
-      navigate('/');
+      navigate(from, { replace: true });
     }
   };
 
