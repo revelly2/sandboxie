@@ -19,6 +19,11 @@ import Profile from './pages/Profile';
 import NotFound from './pages/NotFound';
 import ForgotPassword from './pages/ForgotPassword';
 import ProfileSidebar from './components/ProfileSidebar';
+import QuizView from './pages/QuizView';
+import SimulationsHub from './pages/SimulationsHub';
+import Simulation1 from './pages/Simulation1';
+import Simulation2 from './pages/Simulation2';
+import Quizzes from './pages/Quizzes';
 
 // Admin Imports
 import AdminRoute from './components/AdminRoute';
@@ -75,6 +80,11 @@ function App() {
             <Route path="/module/2" element={<ProtectedRoute><Module2 /></ProtectedRoute>} />
             <Route path="/module/3" element={<ProtectedRoute><Module3 /></ProtectedRoute>} />
             <Route path="/module/4" element={<ProtectedRoute><Module4 /></ProtectedRoute>} />
+            <Route path="/quiz/:quizId" element={<ProtectedRoute><QuizView /></ProtectedRoute>} />
+            <Route path="/simulations" element={<ProtectedRoute><SimulationsHub /></ProtectedRoute>} />
+            <Route path="/simulations/1" element={<ProtectedRoute><Simulation1 /></ProtectedRoute>} />
+            <Route path="/simulations/2" element={<ProtectedRoute><Simulation2 /></ProtectedRoute>} />
+            <Route path="/quizzes" element={<ProtectedRoute><Quizzes /></ProtectedRoute>} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />

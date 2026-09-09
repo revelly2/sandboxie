@@ -1,0 +1,674 @@
+/* ===========================
+   SIMULATION — RETRO GAME
+   =========================== */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+.sim-page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 48px 24px 80px;
+  font-family: 'Press Start 2P', monospace;
+}
+
+/* ---------- CRT Overlay ---------- */
+.sim-crt-overlay {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.06) 0px,
+    rgba(0, 0, 0, 0.06) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  mix-blend-mode: multiply;
+}
+
+/* ---------- Header ---------- */
+.sim-header {
+  text-align: center;
+  margin-bottom: 36px;
+  position: relative;
+}
+
+.sim-header::after {
+  content: '';
+  display: block;
+  margin: 24px auto 0;
+  width: 80%;
+  height: 2px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--accent) 0px,
+    var(--accent) 8px,
+    transparent 8px,
+    transparent 16px
+  );
+}
+
+.sim-title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: clamp(16px, 3.5vw, 28px);
+  color: #00ff88;
+  text-shadow:
+    0 0 8px rgba(0, 255, 136, 0.6),
+    0 0 20px rgba(0, 255, 136, 0.3);
+  letter-spacing: 2px;
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+
+.sim-subtitle {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
+  color: var(--text-muted);
+  letter-spacing: 1px;
+  line-height: 2;
+}
+
+/* ---------- Score HUD ---------- */
+.sim-hud {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 28px;
+  padding: 12px 20px;
+  border: 2px solid rgba(0, 255, 136, 0.25);
+  border-radius: 4px;
+  background: rgba(0, 255, 136, 0.04);
+  flex-wrap: wrap;
+}
+
+.sim-hud-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.sim-hud-label {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  color: var(--text-muted);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.sim-hud-value {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 18px;
+  color: #00ff88;
+  text-shadow: 0 0 6px rgba(0, 255, 136, 0.5);
+}
+
+.sim-hud-value.danger {
+  color: #ff4d6a;
+  text-shadow: 0 0 6px rgba(255, 77, 106, 0.5);
+}
+
+/* Lives */
+.sim-lives {
+  display: flex;
+  gap: 6px;
+}
+
+.sim-heart {
+  font-size: 16px;
+  filter: drop-shadow(0 0 4px rgba(255, 77, 106, 0.6));
+  transition: all 0.3s ease;
+}
+
+.sim-heart.lost {
+  filter: grayscale(1) brightness(0.4);
+  transform: scale(0.8);
+}
+
+/* ---------- Progress Bar ---------- */
+.sim-progress-bar {
+  width: 100%;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(0, 255, 136, 0.15);
+  border-radius: 2px;
+  margin-bottom: 28px;
+  overflow: hidden;
+}
+
+.sim-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #00ff88, #00ccff);
+  box-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+  transition: width 0.4s ease;
+  image-rendering: pixelated;
+}
+
+/* ---------- Scenario Card ---------- */
+.sim-scenario {
+  position: relative;
+  border: 2px solid rgba(0, 255, 136, 0.2);
+  border-radius: 4px;
+  background: rgba(13, 15, 20, 0.9);
+  padding: 32px 28px;
+  margin-bottom: 24px;
+  overflow: hidden;
+}
+
+.sim-scenario::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #00ff88, #00ccff, #7c5cfc);
+}
+
+.sim-scenario-label {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  color: #00ccff;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sim-scenario-label .blink {
+  animation: retro-blink 1s steps(1) infinite;
+}
+
+@keyframes retro-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.sim-scenario-icon {
+  font-size: 48px;
+  text-align: center;
+  margin-bottom: 20px;
+  filter: drop-shadow(0 0 12px rgba(0, 255, 136, 0.4));
+  animation: float-icon 2s ease-in-out infinite;
+}
+
+@keyframes float-icon {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+.sim-scenario-text {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 11px;
+  color: var(--text-primary);
+  line-height: 2.2;
+  letter-spacing: 0.5px;
+}
+
+.sim-scenario-hint {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  color: var(--text-muted);
+  line-height: 2;
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px dashed rgba(255, 255, 255, 0.08);
+}
+
+/* ---------- Answer Buttons ---------- */
+.sim-answers {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+@media (max-width: 500px) {
+  .sim-answers {
+    grid-template-columns: 1fr;
+  }
+}
+
+.sim-answer-btn {
+  position: relative;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 12px;
+  padding: 20px 16px;
+  border: 2px solid rgba(255, 255, 255, 0.12);
+  border-radius: 4px;
+  background: rgba(26, 30, 42, 0.8);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-align: center;
+  letter-spacing: 1px;
+  line-height: 1.6;
+}
+
+.sim-answer-btn:hover:not(:disabled) {
+  border-color: #00ff88;
+  background: rgba(0, 255, 136, 0.06);
+  color: #00ff88;
+  transform: scale(1.02);
+  box-shadow: 0 0 16px rgba(0, 255, 136, 0.15), inset 0 0 16px rgba(0, 255, 136, 0.03);
+}
+
+.sim-answer-btn:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+.sim-answer-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.sim-answer-btn.correct {
+  border-color: #00ff88;
+  background: rgba(0, 255, 136, 0.15);
+  color: #00ff88;
+  box-shadow: 0 0 24px rgba(0, 255, 136, 0.3);
+  animation: correct-flash 0.4s ease;
+}
+
+.sim-answer-btn.wrong {
+  border-color: #ff4d6a;
+  background: rgba(255, 77, 106, 0.15);
+  color: #ff4d6a;
+  box-shadow: 0 0 24px rgba(255, 77, 106, 0.3);
+  animation: wrong-shake 0.4s ease;
+}
+
+@keyframes correct-flash {
+  0%, 100% { opacity: 1; }
+  25% { opacity: 0.5; }
+  50% { opacity: 1; }
+  75% { opacity: 0.6; }
+}
+
+@keyframes wrong-shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-6px); }
+  40% { transform: translateX(6px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(4px); }
+}
+
+/* ---------- Feedback Toast ---------- */
+.sim-feedback {
+  text-align: center;
+  padding: 16px 20px;
+  border-radius: 4px;
+  margin-bottom: 24px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
+  line-height: 2;
+  letter-spacing: 0.5px;
+  animation: slide-up 0.3s ease;
+}
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.sim-feedback.correct {
+  border: 1px solid rgba(0, 255, 136, 0.3);
+  background: rgba(0, 255, 136, 0.08);
+  color: #00ff88;
+}
+
+.sim-feedback.wrong {
+  border: 1px solid rgba(255, 77, 106, 0.3);
+  background: rgba(255, 77, 106, 0.08);
+  color: #ff4d6a;
+}
+
+.sim-feedback-explain {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-top: 8px;
+  line-height: 1.7;
+}
+
+/* ---------- Next Button ---------- */
+.sim-next-btn {
+  display: block;
+  width: 100%;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 12px;
+  padding: 16px;
+  border: 2px solid #00ccff;
+  border-radius: 4px;
+  background: rgba(0, 204, 255, 0.08);
+  color: #00ccff;
+  cursor: pointer;
+  letter-spacing: 2px;
+  transition: all 0.2s ease;
+  text-shadow: 0 0 6px rgba(0, 204, 255, 0.4);
+}
+
+.sim-next-btn:hover {
+  background: rgba(0, 204, 255, 0.15);
+  box-shadow: 0 0 20px rgba(0, 204, 255, 0.2);
+  transform: scale(1.01);
+}
+
+/* ---------- Game Over / Results Screen ---------- */
+.sim-results {
+  text-align: center;
+  padding: 48px 24px;
+  border: 2px solid rgba(0, 255, 136, 0.2);
+  border-radius: 4px;
+  background: rgba(13, 15, 20, 0.95);
+  position: relative;
+  overflow: hidden;
+}
+
+.sim-results::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #ff4d6a, #fbbf24, #00ff88, #00ccff, #7c5cfc);
+}
+
+.sim-results-icon {
+  font-size: 64px;
+  margin-bottom: 24px;
+  animation: float-icon 2s ease-in-out infinite;
+}
+
+.sim-results-title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: clamp(14px, 3vw, 22px);
+  margin-bottom: 20px;
+  line-height: 1.8;
+}
+
+.sim-results-title.gold {
+  color: #fbbf24;
+  text-shadow: 0 0 12px rgba(251, 191, 36, 0.5);
+}
+
+.sim-results-title.green {
+  color: #00ff88;
+  text-shadow: 0 0 12px rgba(0, 255, 136, 0.5);
+}
+
+.sim-results-title.red {
+  color: #ff4d6a;
+  text-shadow: 0 0 12px rgba(255, 77, 106, 0.5);
+}
+
+.sim-results-stats {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+}
+
+.sim-results-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.sim-results-stat-label {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  color: var(--text-muted);
+  letter-spacing: 1px;
+}
+
+.sim-results-stat-value {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 28px;
+  color: #00ff88;
+  text-shadow: 0 0 8px rgba(0, 255, 136, 0.5);
+}
+
+.sim-results-stat-value.wrong-val {
+  color: #ff4d6a;
+  text-shadow: 0 0 8px rgba(255, 77, 106, 0.5);
+}
+
+.sim-results-grade {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
+  color: var(--text-secondary);
+  line-height: 2.2;
+  margin-bottom: 32px;
+  max-width: 480px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.sim-play-again-btn {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 14px;
+  padding: 18px 36px;
+  border: 2px solid #00ff88;
+  border-radius: 4px;
+  background: rgba(0, 255, 136, 0.1);
+  color: #00ff88;
+  cursor: pointer;
+  letter-spacing: 2px;
+  transition: all 0.2s ease;
+  text-shadow: 0 0 8px rgba(0, 255, 136, 0.4);
+}
+
+.sim-play-again-btn:hover {
+  background: rgba(0, 255, 136, 0.2);
+  box-shadow: 0 0 24px rgba(0, 255, 136, 0.3);
+  transform: scale(1.05);
+}
+
+/* ---------- Start Screen ---------- */
+.sim-start {
+  text-align: center;
+  padding: 48px 24px;
+  border: 2px solid rgba(0, 255, 136, 0.2);
+  border-radius: 4px;
+  background: rgba(13, 15, 20, 0.95);
+  position: relative;
+  overflow: hidden;
+}
+
+.sim-start::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #00ff88, #00ccff, #7c5cfc);
+}
+
+.sim-start-icon {
+  font-size: 72px;
+  margin-bottom: 24px;
+  animation: float-icon 2s ease-in-out infinite;
+}
+
+.sim-start-desc {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 9px;
+  color: var(--text-secondary);
+  line-height: 2.4;
+  max-width: 500px;
+  margin: 0 auto 32px;
+  letter-spacing: 0.5px;
+}
+
+.sim-start-btn {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 16px;
+  padding: 20px 48px;
+  border: 2px solid #00ff88;
+  border-radius: 4px;
+  background: rgba(0, 255, 136, 0.1);
+  color: #00ff88;
+  cursor: pointer;
+  letter-spacing: 3px;
+  transition: all 0.2s ease;
+  text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 8px rgba(0, 255, 136, 0.15); }
+  50% { box-shadow: 0 0 24px rgba(0, 255, 136, 0.35); }
+}
+
+.sim-start-btn:hover {
+  background: rgba(0, 255, 136, 0.2);
+  transform: scale(1.05);
+  box-shadow: 0 0 32px rgba(0, 255, 136, 0.4);
+}
+
+/* ---------- Rules Box ---------- */
+.sim-rules {
+  margin-top: 32px;
+  padding: 20px 24px;
+  border: 1px dashed rgba(0, 204, 255, 0.2);
+  border-radius: 4px;
+  background: rgba(0, 204, 255, 0.03);
+  text-align: left;
+}
+
+.sim-rules-title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 9px;
+  color: #00ccff;
+  margin-bottom: 12px;
+  letter-spacing: 1px;
+}
+
+.sim-rules-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sim-rules-list li {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  color: var(--text-secondary);
+  line-height: 2;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.sim-rules-list li::before {
+  content: '>';
+  color: #00ff88;
+  flex-shrink: 0;
+}
+
+/* ---------- Timer Bar ---------- */
+.sim-timer-bar {
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 2px;
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+
+.sim-timer-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.1s linear;
+}
+
+.sim-timer-fill.safe {
+  background: #00ff88;
+  box-shadow: 0 0 8px rgba(0, 255, 136, 0.4);
+}
+
+.sim-timer-fill.warning {
+  background: #fbbf24;
+  box-shadow: 0 0 8px rgba(251, 191, 36, 0.4);
+}
+
+.sim-timer-fill.danger {
+  background: #ff4d6a;
+  box-shadow: 0 0 8px rgba(255, 77, 106, 0.4);
+  animation: pulse-danger 0.5s ease-in-out infinite;
+}
+
+@keyframes pulse-danger {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+/* ---------- Combo Streak ---------- */
+.sim-combo {
+  text-align: center;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
+  color: #fbbf24;
+  text-shadow: 0 0 8px rgba(251, 191, 36, 0.4);
+  margin-bottom: 16px;
+  animation: combo-pop 0.3s ease;
+}
+
+@keyframes combo-pop {
+  0% { transform: scale(0.8); opacity: 0; }
+  60% { transform: scale(1.15); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* ---------- Pixel Decorations ---------- */
+.sim-pixel-divider {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  margin: 24px 0;
+}
+
+.sim-pixel-dot {
+  width: 4px;
+  height: 4px;
+  background: rgba(0, 255, 136, 0.3);
+}
+
+.sim-pixel-dot:nth-child(even) {
+  background: rgba(0, 204, 255, 0.3);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 600px) {
+  .sim-page {
+    padding: 32px 16px 60px;
+  }
+  .sim-hud {
+    padding: 10px 14px;
+    gap: 8px;
+  }
+  .sim-scenario {
+    padding: 24px 20px;
+  }
+  .sim-hud-value {
+    font-size: 14px;
+  }
+  .sim-results-stats {
+    gap: 20px;
+  }
+}
+
+/* ---------- Nav active state for Simulation ---------- */
+.app-nav-link[href="/simulations"].app-nav-link--active {
+  color: #00ff88;
+  background: rgba(0, 255, 136, 0.1);
+}

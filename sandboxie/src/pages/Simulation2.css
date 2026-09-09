@@ -1,0 +1,434 @@
+/* ===========================
+   SIMULATION 2 — MOCK OS
+   =========================== */
+
+/* We'll use a clean sans-serif for the modern OS look */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+.sim2-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px 24px 80px;
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+}
+
+.sim2-header {
+  margin-bottom: 24px;
+}
+
+/* ---------- Mock OS Container ---------- */
+.os-container {
+  width: 100%;
+  height: 600px;
+  background: url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop') no-repeat center center/cover;
+  border-radius: 12px;
+  border: 1px solid var(--border-strong);
+  box-shadow: var(--shadow-lg);
+  position: relative;
+  overflow: hidden;
+  font-family: 'Inter', sans-serif;
+  color: #fff;
+  transition: all 0.5s ease;
+}
+
+/* When Ransomware is active */
+.os-container.ransomware-active {
+  background: #110000;
+  border-color: #ff3333;
+  box-shadow: 0 0 40px rgba(255, 0, 0, 0.4);
+}
+
+.os-container.ransomware-active::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(255, 0, 0, 0.1) 0px,
+    rgba(255, 0, 0, 0.1) 2px,
+    transparent 2px,
+    transparent 4px
+  );
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* When Sandbox is active */
+.os-container.sandbox-active {
+  border: 3px solid #00ff88;
+  box-shadow: 0 0 30px rgba(0, 255, 136, 0.3);
+}
+
+.sandbox-badge {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: #00ff88;
+  color: #000;
+  font-weight: 700;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  z-index: 20;
+  box-shadow: 0 4px 12px rgba(0, 255, 136, 0.4);
+  animation: pulse-sandbox 2s infinite;
+}
+
+@keyframes pulse-sandbox {
+  0%, 100% { box-shadow: 0 4px 12px rgba(0, 255, 136, 0.4); }
+  50% { box-shadow: 0 4px 24px rgba(0, 255, 136, 0.8); }
+}
+
+/* ---------- Taskbar ---------- */
+.os-taskbar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 48px;
+  background: rgba(15, 15, 15, 0.85);
+  backdrop-filter: blur(20px);
+  border-top: 1px solid rgba(255,255,255,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 20px;
+  z-index: 50;
+}
+
+.os-taskbar-icons {
+  display: flex;
+  gap: 12px;
+}
+
+.os-taskbar-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.os-taskbar-icon:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* ---------- Desktop Icons ---------- */
+.os-desktop {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  gap: 20px;
+  height: calc(100% - 48px);
+  align-content: flex-start;
+}
+
+.desktop-icon {
+  width: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  transition: all 0.1s;
+}
+
+.desktop-icon:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.desktop-icon-emoji {
+  font-size: 32px;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+}
+
+.desktop-icon-name {
+  font-size: 12px;
+  text-align: center;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+  word-break: break-word;
+  line-height: 1.2;
+}
+
+/* Ransomware locked state for icons */
+.desktop-icon.locked .desktop-icon-emoji {
+  filter: grayscale(1) drop-shadow(0 0 8px rgba(255,0,0,0.5));
+}
+.desktop-icon.locked .desktop-icon-name {
+  color: #ff6b6b;
+}
+
+/* ---------- Trojan Window ---------- */
+.os-window {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  background: #1e1e1e;
+  border-radius: 8px;
+  border: 1px solid #333;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+  overflow: hidden;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  animation: window-pop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes window-pop {
+  from { opacity: 0; transform: translate(-50%, -45%) scale(0.95); }
+  to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
+.os-window-header {
+  height: 32px;
+  background: #2d2d2d;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 12px;
+  border-bottom: 1px solid #111;
+}
+
+.os-window-title {
+  font-size: 12px;
+  color: #ccc;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.os-window-controls {
+  display: flex;
+  gap: 6px;
+}
+
+.os-window-ctrl {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #ff5f56;
+  cursor: pointer;
+}
+
+.os-window-ctrl:nth-child(2) { background: #ffbd2e; }
+.os-window-ctrl:nth-child(3) { background: #27c93f; }
+
+.os-window-body {
+  padding: 16px;
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+  color: #00ff00;
+  min-height: 200px;
+}
+
+.hacker-text {
+  margin-bottom: 8px;
+  display: block;
+}
+
+.hacker-text.danger {
+  color: #ff3333;
+}
+
+/* ---------- Ransomware Note ---------- */
+.ransom-note {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 500px;
+  background: #900;
+  color: #fff;
+  border: 4px solid #f00;
+  padding: 32px;
+  text-align: center;
+  z-index: 200;
+  box-shadow: 0 0 100px rgba(255,0,0,0.5);
+  animation: shake 0.5s;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translate(-50%, -50%); }
+  20% { transform: translate(-52%, -50%); }
+  40% { transform: translate(-48%, -50%); }
+  60% { transform: translate(-52%, -50%); }
+  80% { transform: translate(-48%, -50%); }
+}
+
+.ransom-title {
+  font-size: 28px;
+  font-weight: 800;
+  margin-bottom: 16px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #fff;
+}
+
+.ransom-text {
+  font-size: 15px;
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+
+.ransom-btn {
+  background: #000;
+  color: #f00;
+  border: 1px solid #f00;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.ransom-btn:hover {
+  background: #f00;
+  color: #fff;
+}
+
+/* ---------- Info Panel (Outside OS) ---------- */
+.sim2-info-panel {
+  margin-top: 32px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.sim2-info-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sim2-controls {
+  display: flex;
+  gap: 12px;
+}
+
+.btn-sandbox-toggle {
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s;
+}
+
+.btn-sandbox-toggle.off {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-muted);
+  color: var(--text-primary);
+}
+
+.btn-sandbox-toggle.on {
+  background: rgba(0, 255, 136, 0.15);
+  border: 1px solid #00ff88;
+  color: #00ff88;
+}
+
+.btn-reset {
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-muted);
+  color: var(--text-primary);
+  transition: all 0.2s;
+}
+
+.btn-reset:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.sim2-instruction {
+  font-size: 15px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+/* ---------- Detailed Breakdown Panel ---------- */
+.sim2-breakdown {
+  margin-top: 24px;
+  border-top: 1px solid var(--border-subtle);
+  padding-top: 24px;
+}
+
+.sim2-breakdown-title {
+  font-size: 18px;
+  margin-bottom: 20px;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sim2-breakdown-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 16px;
+}
+
+.sim2-breakdown-card {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-muted);
+  border-radius: 8px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sim2-breakdown-card.danger {
+  border-color: rgba(255, 51, 51, 0.3);
+  background: rgba(255, 51, 51, 0.05);
+}
+
+.sim2-breakdown-card.success {
+  border-color: rgba(0, 255, 136, 0.3);
+  background: rgba(0, 255, 136, 0.05);
+}
+
+.sim2-breakdown-card.fail {
+  border-color: rgba(255, 51, 51, 0.5);
+  background: rgba(255, 51, 51, 0.1);
+}
+
+.sim2-breakdown-icon {
+  font-size: 28px;
+}
+
+.sim2-breakdown-card h4 {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.sim2-breakdown-card p {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin: 0;
+}

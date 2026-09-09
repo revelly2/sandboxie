@@ -61,6 +61,18 @@ const Navigation = ({ onOpenProfile }) => {
           >
             {lang === 'il' ? 'Dashboard' : 'Dashboard'}
           </Link>
+          <Link
+            to="/simulations"
+            className={`app-nav-link ${location.pathname === '/simulations' ? 'app-nav-link--active' : ''}`}
+          >
+            {lang === 'il' ? 'Simulation' : 'Simulation'}
+          </Link>
+          <Link
+            to="/quizzes"
+            className={`app-nav-link ${location.pathname.startsWith('/quiz') ? 'app-nav-link--active' : ''}`}
+          >
+            {lang === 'il' ? 'Quiz' : 'Quiz'}
+          </Link>
         </div>
 
         <div className={`app-nav-actions ${mobileOpen ? 'is-open' : ''}`}>

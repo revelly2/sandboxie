@@ -85,6 +85,7 @@ const Dashboard = () => {
   const { lang } = useLanguage();
   const { user, loading } = useAuth();
   const [progress, setProgress] = useState({});
+
   const navigate = useNavigate();
   const toast = useToast();
 
@@ -115,6 +116,8 @@ const Dashboard = () => {
       fetchProgress();
     }
   }, [user]);
+
+
 
   const toggleStatus = async (e, moduleId, currentStatus) => {
     e.stopPropagation();
@@ -183,6 +186,8 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
+
+
 
       {/* Folders Grid */}
       <div className="dashboard-folders-section">

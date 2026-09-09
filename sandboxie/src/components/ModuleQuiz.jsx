@@ -387,9 +387,27 @@ const ModuleQuiz = ({ moduleId }) => {
     <div style={{ marginTop: '32px' }}>
       <div className="module-divider"></div>
       <div className="module-section" style={{ marginTop: '24px' }}>
-        <h2 className="module-section-title">
-          {lang === 'il' ? 'Quiz' : 'Quiz'}
-        </h2>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <h2 className="module-section-title" style={{ margin: 0 }}>
+            {lang === 'il' ? 'Quiz' : 'Quiz'}
+          </h2>
+          {currentQ > 0 || selected !== null ? (
+            <button 
+              onClick={handleRetry}
+              style={{ 
+                background: 'transparent', border: '1px solid var(--border-muted)', 
+                color: 'var(--text-secondary)', padding: '4px 10px', 
+                borderRadius: '4px', cursor: 'pointer', fontSize: '0.8rem',
+                display: 'flex', alignItems: 'center', gap: '4px',
+                transition: 'all 0.2s'
+              }}
+              onMouseOver={(e) => { e.currentTarget.style.color = 'var(--text-primary)'; e.currentTarget.style.borderColor = 'var(--text-muted)'; }}
+              onMouseOut={(e) => { e.currentTarget.style.color = 'var(--text-secondary)'; e.currentTarget.style.borderColor = 'var(--border-muted)'; }}
+            >
+              ↻ {lang === 'il' ? 'I-reset' : 'Reset'}
+            </button>
+          ) : null}
+        </div>
         
         {/* Progress */}
         <div style={{ 
