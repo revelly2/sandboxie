@@ -26,8 +26,15 @@ const AdminRoute = ({ children }) => {
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
-  // TODO: Implement actual admin check here based on your database setup
-  // For example: if (user.user_metadata?.role !== 'admin' && user.email !== 'admin@sandboxie.com') { return <Navigate to="/" replace />; }
+  // Admin check
+  const isAdmin = 
+    user.id === 'edc0422f-893e-4946-a287-451e71924112' ||
+    user.email === 'admin@sandboxie.com' || 
+    user.user_metadata?.role === 'admin';
+
+  if (!isAdmin) {
+    return <Navigate to="/" replace />;
+  }
 
   return children;
 };
