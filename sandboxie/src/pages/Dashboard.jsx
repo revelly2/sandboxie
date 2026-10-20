@@ -9,6 +9,7 @@ import { WindowIcon, VirusIcon, ShieldIcon, BroomIcon } from '../components/Glas
 import BlurText from '../components/BlurText';
 import { useToast } from '../context/ToastContext';
 import { fireConfetti } from '../lib/confetti';
+import { StudentVectorIllustration } from '../components/StudentVectorIllustration';
 
 const modules = {
   il: [
@@ -142,7 +143,7 @@ const Dashboard = () => {
 
     if (newStatus === 'completed') {
       fireConfetti();
-      toast.success(lang === 'il' ? `Modul ${moduleId} — Nalpas! 🎉` : `Module ${moduleId} — Completed! 🎉`);
+      toast.success(lang === 'il' ? `Modul ${moduleId} — Nalpas!` : `Module ${moduleId} — Completed!`);
     } else {
       toast.info(lang === 'il' ? `Modul ${moduleId} — Naikkat ti marka` : `Module ${moduleId} — Unmarked`);
     }
@@ -156,32 +157,51 @@ const Dashboard = () => {
       {/* Hero Header */}
       <div className="dashboard-hero">
         <div className="dashboard-hero-glow"></div>
-        <div className="dashboard-hero-content">
-          <h1 className="dashboard-title" style={{ display: 'flex', justifyContent: 'center' }}>
-            <BlurText 
-              text={lang === 'il' ? 'Agtukad iti Kabaelam' : 'Level Up Your Skills'}
-              delay={150}
-              animateBy="words"
-              direction="top"
-            />
-          </h1>
-          <p className="dashboard-subtitle">
-            {lang === 'il'
-              ? 'Agadal no kasano ti natalged a panag-handle kadagiti malware usaren ti Windows Sandbox. Pilien ti folder tapno luktan ti modul.'
-              : 'Learn how to safely handle malware using Windows Sandbox. Click a folder to open a module.'}
-          </p>
-
-          {/* Progress Bar */}
-          <div className="dashboard-progress-wrapper">
-            <div className="dashboard-progress-header">
-              <span>{lang === 'il' ? 'Nalpas' : 'Progress'}</span>
-              <span className="dashboard-progress-count">{completedCount} / {totalCount}</span>
+        <div className="dashboard-hero-layout">
+          <div className="dashboard-hero-content">
+            <div className="dashboard-hero-badge">
+              <span className="badge-dot"></span>
+              <span>{lang === 'il' ? 'Windows Sandbox Virtual Lab' : 'Windows Sandbox Virtual Lab'}</span>
             </div>
-            <div className="dashboard-progress-bar">
-              <div
-                className="dashboard-progress-fill"
-                style={{ width: `${(completedCount / totalCount) * 100}%` }}
-              ></div>
+            <h1 className="dashboard-title">
+              <BlurText 
+                text={lang === 'il' ? 'Agtukad iti Kabaelam' : 'Level Up Your Skills'}
+                delay={150}
+                animateBy="words"
+                direction="top"
+              />
+            </h1>
+            <p className="dashboard-subtitle">
+              {lang === 'il'
+                ? 'Agadal no kasano ti natalged a panag-handle kadagiti malware usaren ti Windows Sandbox. Pilien ti folder tapno luktan ti modul.'
+                : 'Learn how to safely handle malware using Windows Sandbox. Click a folder to open a module.'}
+            </p>
+
+            {/* Progress Bar */}
+            <div className="dashboard-progress-wrapper">
+              <div className="dashboard-progress-header">
+                <span>{lang === 'il' ? 'Nalpas a Modul' : 'Completed Modules'}</span>
+                <span className="dashboard-progress-count">{completedCount} / {totalCount}</span>
+              </div>
+              <div className="dashboard-progress-bar">
+                <div
+                  className="dashboard-progress-fill"
+                  style={{ width: `${(completedCount / totalCount) * 100}%` }}
+                ></div>
+              </div>
+            </div>
+          </div>
+
+          {/* Seamless Transparent Student Vector Illustration */}
+          <div className="dashboard-hero-visual">
+            <div className="dashboard-vector-seamless">
+              <StudentVectorIllustration className="dashboard-hero-vector-svg" />
+              <div className="dashboard-vector-caption">
+                <span className="vector-caption-badge">BSIT & ICT LAB</span>
+                <span className="vector-caption-title">
+                  {lang === 'il' ? 'Natalged a Panagpadpadas' : 'Safe Threat Isolation'}
+                </span>
+              </div>
             </div>
           </div>
         </div>

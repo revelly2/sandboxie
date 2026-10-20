@@ -108,7 +108,7 @@ const Simulation2 = () => {
         {/* Sandbox Badge */}
         {sandboxActive && (
           <div className="sandbox-badge">
-            {lang === 'il' ? '🛡️ SANDBOX AKTIBO' : '🛡️ SANDBOX ACTIVE'}
+            {lang === 'il' ? 'SANDBOX AKTIBO' : 'SANDBOX ACTIVE'}
           </div>
         )}
 
@@ -184,7 +184,7 @@ const Simulation2 = () => {
           <h2 style={{ fontSize: '18px', margin: 0 }}>{lang === 'il' ? 'Kontrol ti Simulation' : 'Simulation Controls'}</h2>
           <div className="sim2-controls">
             <button className={`btn-sandbox-toggle ${sandboxActive ? 'on' : 'off'}`} onClick={toggleSandbox}>
-              {sandboxActive ? '🛡️ Sandbox: ON' : '🛡️ Sandbox: OFF'}
+              {sandboxActive ? 'Sandbox: ON' : 'Sandbox: OFF'}
             </button>
             <button className="btn-reset" onClick={handleReset}>
               ↻ {lang === 'il' ? 'I-reset ti PC' : 'Reset PC'}

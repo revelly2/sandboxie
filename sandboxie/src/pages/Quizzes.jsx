@@ -72,15 +72,24 @@ const Quizzes = () => {
                   <p style={{ color: 'var(--accent-light)', fontSize: '0.9rem', fontWeight: 500 }}>{quiz.module}</p>
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '16px', borderTop: '1px solid var(--border-subtle)', paddingTop: '16px' }}>
-                  {quiz.time_limit_minutes > 0 ? (
-                    <span style={{ fontSize: '0.85rem', color: '#f87171', display: 'flex', alignItems: 'center', gap: '4px', fontWeight: 500 }}>
-                      ⏱ {quiz.time_limit_minutes} {lang === 'il' ? 'min' : 'mins'}
-                    </span>
-                  ) : (
-                    <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                      ⏱ {lang === 'il' ? 'Awan limit' : 'No limit'}
-                    </span>
-                  )}
+                  {(() => {
+                    let mins = quiz.time_limit_minutes;
+                    if (!mins) {
+                      try {
+                        const m = JSON.parse(localStorage.getItem(`quiz_meta_${quiz.id}`) || '{}');
+                        if (m.time_limit_minutes) mins = m.time_limit_minutes;
+                      } catch (e) {}
+                    }
+                    return mins > 0 ? (
+                      <span style={{ fontSize: '0.85rem', color: '#f87171', display: 'flex', alignItems: 'center', gap: '4px', fontWeight: 500 }}>
+                        {mins} {lang === 'il' ? 'min' : 'mins'}
+                      </span>
+                    ) : (
+                      <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                        {lang === 'il' ? 'Awan limit' : 'No limit'}
+                      </span>
+                    );
+                  })()}
                   <span style={{ fontSize: '0.85rem', color: 'var(--accent)', fontWeight: 600 }}>{lang === 'il' ? 'Irugi' : 'Start'} →</span>
                 </div>
               </div>

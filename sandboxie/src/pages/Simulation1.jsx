@@ -341,7 +341,7 @@ const Simulation1 = () => {
 
         <div className="sim-header">
           <h1 className="sim-title">
-            {lang === 'il' ? '🛡️ VIRUS vs WORM' : '🛡️ VIRUS vs WORM'}
+            {lang === 'il' ? 'VIRUS vs WORM' : 'VIRUS vs WORM'}
           </h1>
           <p className="sim-subtitle">
             {lang === 'il' ? 'RETRO IDENTIFICATION SIMULATOR' : 'RETRO IDENTIFICATION SIMULATOR'}
@@ -349,7 +349,13 @@ const Simulation1 = () => {
         </div>
 
         <div className="sim-start">
-          <div className="sim-start-icon">🖥️</div>
+          <div className="sim-start-icon" style={{ display: 'flex', justifyContent: 'center', marginBottom: 12 }}>
+            <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="var(--accent-light)" strokeWidth="1.8">
+              <rect x="2" y="3" width="20" height="14" rx="2"/>
+              <line x1="8" y1="21" x2="16" y2="21"/>
+              <line x1="12" y1="17" x2="12" y2="21"/>
+            </svg>
+          </div>
           <h2 className="sim-title" style={{ fontSize: 'clamp(12px, 2.5vw, 18px)', marginBottom: '20px' }}>
             {lang === 'il' ? 'HAAN KADI A VIRUS WENNO WORM?' : 'IS IT A VIRUS OR A WORM?'}
           </h2>
@@ -466,7 +472,7 @@ const Simulation1 = () => {
 
       <div className="sim-header">
         <h1 className="sim-title">
-          🛡️ VIRUS vs WORM
+          VIRUS vs WORM
         </h1>
       </div>
 

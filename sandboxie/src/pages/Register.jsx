@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import { useLanguage } from '../context/LanguageContext';
+import { StudentVectorIllustration, StudentAvatarIcon } from '../components/StudentVectorIllustration';
 import './Auth.css';
 
 const getPasswordStrength = (password) => {
-  if (!password) return { level: 0, label: '', color: '' };
+  if (!password) return { level: 0, label: '', labelIl: '', color: '' };
   let score = 0;
   if (password.length >= 6) score++;
   if (password.length >= 8) score++;
@@ -27,7 +28,7 @@ const Register = () => {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
   const navigate = useNavigate();
-  const { lang } = useLanguage();
+  const { lang, setLanguage } = useLanguage();
 
   const strength = getPasswordStrength(password);
 
@@ -51,129 +52,199 @@ const Register = () => {
       setError(error.message);
     } else {
       setSuccess(true);
-      setTimeout(() => navigate('/login'), 3000);
+      setTimeout(() => navigate('/login'), 2500);
     }
     setLoading(false);
   };
 
   return (
     <div className="auth-page">
-      <div className="auth-card">
-        <div className="auth-header">
-          <h1 className="auth-title">
-            {lang === 'il' ? 'Agaramid ti Account' : 'Create Account'}
-          </h1>
-          <p className="auth-subtitle">
-            {lang === 'il' ? 'Sumali ka iti Sandboxie ita' : 'Join Sandboxie today'}
-          </p>
+      <div className="auth-container">
+        {/* Left Side: Seamless Vector Student Visual Banner */}
+        <div className="auth-visual-side">
+          <div className="auth-vector-wrap">
+            <StudentVectorIllustration className="auth-vector-svg" />
+          </div>
+          <div className="auth-visual-text">
+            <h2 className="auth-visual-title">
+              {lang === 'il' ? 'Makiisa iti Komunidad' : 'Join the Cyber Defense Lab'}
+            </h2>
+            <p className="auth-visual-desc">
+              {lang === 'il'
+                ? 'Agrehistro tapno maital-o ti ammom kadagiti modules, interactive simulations, ken quizzes para iti natalged a kompyuter.'
+                : 'Create your account to unlock hands-on Windows Sandbox modules, simulation labs, and interactive quizzes.'}
+            </p>
+            <div className="auth-feature-pills">
+              <span className="auth-feature-pill">BSIT & ICT Ready</span>
+              <span className="auth-feature-pill">Track Progress</span>
+              <span className="auth-feature-pill">Earn Mastery</span>
+            </div>
+          </div>
         </div>
-        
-        {error && <div className="auth-error-msg">{error}</div>}
-        {success && (
-          <div className="auth-success-msg">
-            {lang === 'il' 
-              ? 'Nagballigi ti rehistrasyon! Agturong idiay login...' 
-              : 'Registration successful! Redirecting to login...'}
-          </div>
-        )}
 
-        <form className="auth-form" onSubmit={handleRegister}>
-          <div className="form-group">
-            <label className="form-label" htmlFor="name">
-              {lang === 'il' ? 'Kompleto a Nagan' : 'Full Name'}
-            </label>
-            <input 
-              type="text" 
-              id="name" 
-              className="form-input" 
-              placeholder={lang === 'il' ? 'Isurat ti nagan mo' : 'Enter your name'}
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-            />
+        {/* Right Side: Register Card */}
+        <div className="auth-card">
+          {/* Mobile Student Avatar Icon */}
+          <div className="auth-mobile-student-avatar">
+            <StudentAvatarIcon size={64} className="mobile-avatar-svg" />
           </div>
 
-          <div className="form-group">
-            <label className="form-label" htmlFor="email">
-              {lang === 'il' ? 'Email Address' : 'Email Address'}
-            </label>
-            <input 
-              type="email" 
-              id="email" 
-              className="form-input" 
-              placeholder={lang === 'il' ? 'Isurat ti email mo' : 'Enter your email'}
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
+          {/* In-Card Quick Language Switcher */}
+          <div className="auth-lang-switch">
+            <button
+              type="button"
+              className={`auth-lang-pill ${lang === 'il' ? 'is-active' : ''}`}
+              onClick={() => setLanguage('il')}
+              aria-label="Switch to Ilocano"
+            >
+              Ilocano
+            </button>
+            <button
+              type="button"
+              className={`auth-lang-pill ${lang === 'en' ? 'is-active' : ''}`}
+              onClick={() => setLanguage('en')}
+              aria-label="Switch to English"
+            >
+              English
+            </button>
+          </div>
+
+          <div className="auth-header">
+            <h1 className="auth-title">
+              {lang === 'il' ? 'Agaramid ti Account' : 'Create Account'}
+            </h1>
+            <p className="auth-subtitle">
+              {lang === 'il' ? 'Sumali ka iti Sandboxie ita' : 'Join Sandboxie today'}
+            </p>
           </div>
           
-          <div className="form-group">
-            <label className="form-label" htmlFor="password">
-              {lang === 'il' ? 'Password' : 'Password'}
-            </label>
-            <div className="form-input-wrapper">
+          {error && (
+            <div className="auth-error-msg" role="alert">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="12" y1="8" x2="12" y2="12"/>
+                <line x1="12" y1="16" x2="12.01" y2="16"/>
+              </svg>
+              <span>{error}</span>
+            </div>
+          )}
+
+          {success && (
+            <div className="auth-success-msg" role="status">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                <polyline points="22 4 12 14.01 9 11.01"/>
+              </svg>
+              <span>
+                {lang === 'il' 
+                  ? 'Nagballigi ti rehistrasyon! Agturong idiay login...' 
+                  : 'Registration successful! Redirecting to login...'}
+              </span>
+            </div>
+          )}
+
+          <form className="auth-form" onSubmit={handleRegister} noValidate>
+            <div className="form-group">
+              <label className="form-label" htmlFor="name">
+                {lang === 'il' ? 'Kompleto a Nagan' : 'Full Name'}
+              </label>
               <input 
-                type={showPassword ? 'text' : 'password'} 
-                id="password" 
+                type="text" 
+                id="name" 
                 className="form-input" 
-                placeholder={lang === 'il' ? 'Agaramid ti password' : 'Create a password'}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                placeholder={lang === 'il' ? 'Isurat ti nagan mo' : 'Enter your name'}
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                autoComplete="name"
                 required
               />
-              <button 
-                type="button" 
-                className="password-toggle-btn" 
-                onClick={() => setShowPassword(!showPassword)}
-                aria-label={showPassword ? 'Hide password' : 'Show password'}
-              >
-                {showPassword ? (
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/>
-                    <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/>
-                    <path d="M14.12 14.12a3 3 0 1 1-4.24-4.24"/>
-                    <line x1="1" y1="1" x2="23" y2="23"/>
-                  </svg>
-                ) : (
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-                    <circle cx="12" cy="12" r="3"/>
-                  </svg>
-                )}
-              </button>
             </div>
-            {/* Password strength indicator */}
-            {password && (
-              <div className="password-strength">
-                <div className="password-strength-bar">
-                  <div 
-                    className="password-strength-fill" 
-                    style={{ 
-                      width: `${(strength.level / 3) * 100}%`, 
-                      background: strength.color 
-                    }} 
-                  />
-                </div>
-                <span className="password-strength-label" style={{ color: strength.color }}>
-                  {lang === 'il' ? strength.labelIl : strength.label}
-                </span>
+
+            <div className="form-group">
+              <label className="form-label" htmlFor="email">
+                {lang === 'il' ? 'Email Address' : 'Email Address'}
+              </label>
+              <input 
+                type="email" 
+                id="email" 
+                className="form-input" 
+                placeholder={lang === 'il' ? 'Isurat ti email mo' : 'Enter your email'}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                autoComplete="email"
+                required
+              />
+            </div>
+            
+            <div className="form-group">
+              <label className="form-label" htmlFor="password">
+                {lang === 'il' ? 'Password' : 'Password'}
+              </label>
+              <div className="form-input-wrapper">
+                <input 
+                  type={showPassword ? 'text' : 'password'} 
+                  id="password" 
+                  className="form-input" 
+                  placeholder={lang === 'il' ? 'Agaramid ti password' : 'Create a password'}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  autoComplete="new-password"
+                  required
+                />
+                <button 
+                  type="button" 
+                  className="password-toggle-btn" 
+                  onClick={() => setShowPassword(!showPassword)}
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
+                >
+                  {showPassword ? (
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/>
+                      <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/>
+                      <path d="M14.12 14.12a3 3 0 1 1-4.24-4.24"/>
+                      <line x1="1" y1="1" x2="23" y2="23"/>
+                    </svg>
+                  ) : (
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                      <circle cx="12" cy="12" r="3"/>
+                    </svg>
+                  )}
+                </button>
               </div>
-            )}
-          </div>
+              
+              {/* Password strength indicator */}
+              {password && (
+                <div className="password-strength">
+                  <div className="password-strength-bar">
+                    <div 
+                      className="password-strength-fill" 
+                      style={{ 
+                        width: `${(strength.level / 3) * 100}%`, 
+                        background: strength.color 
+                      }} 
+                    />
+                  </div>
+                  <span className="password-strength-label" style={{ color: strength.color }}>
+                    {lang === 'il' ? strength.labelIl : strength.label}
+                  </span>
+                </div>
+              )}
+            </div>
+            
+            <button type="submit" className="auth-submit-btn" disabled={loading}>
+              {loading 
+                ? (lang === 'il' ? 'Ag-sign up...' : 'Signing Up...') 
+                : (lang === 'il' ? 'Ag-Sign Up' : 'Sign Up')}
+            </button>
+          </form>
           
-          <button type="submit" className="auth-submit-btn" disabled={loading}>
-            {loading 
-              ? (lang === 'il' ? 'Ag-sign up...' : 'Signing Up...') 
-              : (lang === 'il' ? 'Ag-Sign Up' : 'Sign Up')}
-          </button>
-        </form>
-        
-        <div className="auth-footer">
-          {lang === 'il' ? 'Adda metten account mo?' : 'Already have an account?'} 
-          <Link to="/login" className="auth-link">
-            {lang === 'il' ? 'Ag-Log In' : 'Log In'}
-          </Link>
+          <div className="auth-footer">
+            <span>{lang === 'il' ? 'Adda metten account mo?' : 'Already have an account?'}</span>
+            <Link to="/login" className="auth-link">
+              {lang === 'il' ? 'Ag-Log In' : 'Log In'}
+            </Link>
+          </div>
         </div>
       </div>
     </div>

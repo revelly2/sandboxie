@@ -48,8 +48,8 @@ const Module4 = () => {
       {/* Header */}
       <div className="module-header">
         <div className="module-header-tag">
-          🧹 {lang === 'il' ? 'Modul 4' : 'Module 4'}
-          <span className="module-reading-time">⏱ ~4 min</span>
+          <span className="module-tag-badge">{lang === 'il' ? 'Modul 4' : 'Module 4'}</span>
+          <span className="module-reading-time">4 min read</span>
         </div>
         <h1 className="module-title">
           {lang === 'il' ? 'Panangikkat ti Adware' : 'Removing Adware'}
@@ -92,7 +92,11 @@ const Module4 = () => {
                 lineHeight: 1.6,
               }}
             >
-              <span style={{ color: 'var(--mod-amber)', flexShrink: 0, marginTop: 2 }}>⚡</span>
+              <span style={{ color: 'var(--mod-amber)', flexShrink: 0, marginTop: 6 }}>
+                <svg width="6" height="6" viewBox="0 0 6 6" fill="currentColor">
+                  <circle cx="3" cy="3" r="3" />
+                </svg>
+              </span>
               {symptom}
             </div>
           ))}

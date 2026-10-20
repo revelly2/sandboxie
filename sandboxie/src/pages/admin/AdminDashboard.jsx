@@ -5,8 +5,7 @@ const AdminDashboard = () => {
   const [stats, setStats] = useState({
     students: 0,
     tutorials: 0,
-    quizzes: 0,
-    simulations: 0
+    quizzes: 0
   });
   const [recentActivity, setRecentActivity] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -19,12 +18,10 @@ const AdminDashboard = () => {
       const [
         { count: tutorialsCount },
         { count: quizzesCount },
-        { count: simulationsCount },
         { data: progressData }
       ] = await Promise.all([
         supabase.from('tutorials').select('*', { count: 'exact', head: true }),
         supabase.from('quizzes').select('*', { count: 'exact', head: true }),
-        supabase.from('simulations').select('*', { count: 'exact', head: true }),
         supabase.from('user_progress').select('user_id')
       ]);
 
@@ -34,8 +31,7 @@ const AdminDashboard = () => {
       setStats({
         students: uniqueStudents,
         tutorials: tutorialsCount || 0,
-        quizzes: quizzesCount || 0,
-        simulations: simulationsCount || 0
+        quizzes: quizzesCount || 0
       });
 
       // Fetch recent activity
@@ -56,7 +52,7 @@ const AdminDashboard = () => {
     <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
       <h2 style={{ margin: 0, fontWeight: 600 }}>Overview</h2>
       
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '24px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '24px' }}>
         <div className="admin-glass-card">
           <h3 style={{ margin: '0 0 8px 0', fontSize: '1.1rem', color: '#9aa0b4' }}>Total Students</h3>
           <p style={{ margin: 0, fontSize: '2.5rem', fontWeight: 700, color: '#fff' }}>{loading ? '-' : stats.students}</p>
@@ -70,11 +66,6 @@ const AdminDashboard = () => {
         <div className="admin-glass-card">
           <h3 style={{ margin: '0 0 8px 0', fontSize: '1.1rem', color: '#9aa0b4' }}>Total Quizzes</h3>
           <p style={{ margin: 0, fontSize: '2.5rem', fontWeight: 700, color: '#34d399' }}>{loading ? '-' : stats.quizzes}</p>
-        </div>
-
-        <div className="admin-glass-card">
-          <h3 style={{ margin: '0 0 8px 0', fontSize: '1.1rem', color: '#9aa0b4' }}>Simulations</h3>
-          <p style={{ margin: 0, fontSize: '2.5rem', fontWeight: 700, color: '#f59e0b' }}>{loading ? '-' : stats.simulations}</p>
         </div>
       </div>
 

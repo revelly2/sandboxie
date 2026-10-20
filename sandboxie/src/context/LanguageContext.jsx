@@ -15,8 +15,13 @@ export const LanguageProvider = ({ children }) => {
     });
   };
 
+  const setLanguage = (newLang) => {
+    setLang(newLang);
+    localStorage.setItem('sandboxie-lang', newLang);
+  };
+
   return (
-    <LanguageContext.Provider value={{ lang, toggleLanguage }}>
+    <LanguageContext.Provider value={{ lang, toggleLanguage, setLanguage }}>
       {children}
     </LanguageContext.Provider>
   );

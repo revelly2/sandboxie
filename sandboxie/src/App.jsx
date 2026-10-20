@@ -24,6 +24,8 @@ import SimulationsHub from './pages/SimulationsHub';
 import Simulation1 from './pages/Simulation1';
 import Simulation2 from './pages/Simulation2';
 import Quizzes from './pages/Quizzes';
+import VideoTutorialsHub from './pages/VideoTutorialsHub';
+import VideoTutorial from './pages/VideoTutorial';
 
 // Admin Imports
 import AdminRoute from './components/AdminRoute';
@@ -31,7 +33,6 @@ import AdminLayout from './pages/admin/AdminLayout';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import AdminTutorials from './pages/admin/AdminTutorials';
 import AdminQuizzes from './pages/admin/AdminQuizzes';
-import AdminSimulations from './pages/admin/AdminSimulations';
 
 const MainLayout = ({ isProfileOpen, setIsProfileOpen }) => (
   <div className="app-shell">
@@ -70,7 +71,6 @@ function App() {
             <Route index element={<AdminDashboard />} />
             <Route path="tutorials" element={<AdminTutorials />} />
             <Route path="quizzes" element={<AdminQuizzes />} />
-            <Route path="simulations" element={<AdminSimulations />} />
           </Route>
 
           {/* Standard App Routes */}
@@ -84,6 +84,8 @@ function App() {
             <Route path="/simulations" element={<ProtectedRoute><SimulationsHub /></ProtectedRoute>} />
             <Route path="/simulations/1" element={<ProtectedRoute><Simulation1 /></ProtectedRoute>} />
             <Route path="/simulations/2" element={<ProtectedRoute><Simulation2 /></ProtectedRoute>} />
+            <Route path="/video-tutorials" element={<ProtectedRoute><VideoTutorialsHub /></ProtectedRoute>} />
+            <Route path="/video-tutorials/:slug" element={<ProtectedRoute><VideoTutorial /></ProtectedRoute>} />
             <Route path="/quizzes" element={<ProtectedRoute><Quizzes /></ProtectedRoute>} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />

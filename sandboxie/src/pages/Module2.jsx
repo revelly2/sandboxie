@@ -22,8 +22,8 @@ const Module2 = () => {
       {/* Header */}
       <div className="module-header">
         <div className="module-header-tag">
-          🦠 {lang === 'il' ? 'Modul 2' : 'Module 2'}
-          <span className="module-reading-time">⏱ ~4 min</span>
+          <span className="module-tag-badge">{lang === 'il' ? 'Modul 2' : 'Module 2'}</span>
+          <span className="module-reading-time">4 min read</span>
         </div>
         <h1 className="module-title">
           {lang === 'il' ? 'Panangbigbig Kadagiti Virus ken Worms' : 'Identifying Viruses and Worms'}

@@ -14,7 +14,12 @@ const SimulationsHub = () => {
       desc: lang === 'il'
         ? 'Diferensiaen ti Virus ken Worm babaen kadagiti real-world scenarios iti retro-style a pagay-ayaman.'
         : 'Differentiate between a Virus and a Worm through real-world scenarios in a retro-style mini-game.',
-      icon: '🛡️',
+      icon: (
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#00ff88" strokeWidth="1.8">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          <path d="M9 12l2 2 4-4"/>
+        </svg>
+      ),
       color: '#00ff88',
       bg: 'rgba(0, 255, 136, 0.1)'
     },
@@ -25,7 +30,13 @@ const SimulationsHub = () => {
       desc: lang === 'il'
         ? 'Padasen a solbaren ti Trojan ken Ransomware attacks iti uneg ti pek-peke a PC desktop usaren ti Sandbox.'
         : 'Experience handling Trojan and Ransomware attacks inside a mock PC desktop using the Sandbox.',
-      icon: '💻',
+      icon: (
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" strokeWidth="1.8">
+          <rect x="2" y="3" width="20" height="14" rx="2"/>
+          <line x1="8" y1="21" x2="16" y2="21"/>
+          <line x1="12" y1="17" x2="12" y2="21"/>
+        </svg>
+      ),
       color: '#7c5cfc',
       bg: 'rgba(124, 92, 252, 0.1)'
     }

@@ -36,21 +36,30 @@ const QuizView = () => {
         navigate('/');
         return;
       }
+      // Retrieve local metadata if present
+      try {
+        const meta = JSON.parse(localStorage.getItem(`quiz_meta_${quizId}`) || '{}');
+        if (meta.time_limit_minutes) quizData.time_limit_minutes = meta.time_limit_minutes;
+      } catch (e) {}
+
       setQuiz(quizData);
 
-      const { data: qData, error: qError } = await supabase.from('quiz_questions').select('*').eq('quiz_id', quizId);
-      
-      if (!qError && qData) {
-        let finalQuestions = [...qData];
-        if (quizData.is_shuffled) {
-          // Fisher-Yates shuffle
-          for (let i = finalQuestions.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [finalQuestions[i], finalQuestions[j]] = [finalQuestions[j], finalQuestions[i]];
-          }
+      let finalQuestions = [];
+      try {
+        const { data: qData, error: qError } = await supabase.from('quiz_questions').select('*').eq('quiz_id', quizId);
+        if (!qError && qData && qData.length > 0) {
+          finalQuestions = [...qData];
         }
-        setQuestions(finalQuestions);
+      } catch (e) {}
+
+      if (finalQuestions.length === 0) {
+        try {
+          const localQ = localStorage.getItem(`quiz_questions_${quizId}`);
+          if (localQ) finalQuestions = JSON.parse(localQ);
+        } catch (e) {}
       }
+
+      setQuestions(finalQuestions);
       setLoading(false);
     };
 
@@ -135,15 +144,32 @@ const QuizView = () => {
     }
 
     if (user) {
-      supabase.from('quiz_scores').upsert({
+      const modNum = parseInt(quiz?.module?.replace(/\D/g, '') || '1', 10);
+      supabase.from('quiz_scores').insert([{
         user_id: user.id,
-        quiz_id: quiz.id, 
+        module_id: modNum,
         score,
-        total: total,
-        completed_at: new Date().toISOString()
-      }).then(({ error }) => {
+        max_score: total || 1
+      }]).then(({ error }) => {
         if (error) console.error('Failed to save quiz score:', error);
       });
+
+      // Also log locally so admin can see student email and quiz title immediately
+      try {
+        const history = JSON.parse(localStorage.getItem('student_quiz_submissions') || '[]');
+        history.unshift({
+          id: Date.now().toString(),
+          user_id: user.id,
+          user_email: user.email || 'student@sandboxie.local',
+          quiz_id: quiz.id,
+          quiz_title: quiz.title,
+          module: quiz.module,
+          score,
+          max_score: total || 1,
+          created_at: new Date().toISOString()
+        });
+        localStorage.setItem('student_quiz_submissions', JSON.stringify(history.slice(0, 100)));
+      } catch (e) {}
     }
   };
 

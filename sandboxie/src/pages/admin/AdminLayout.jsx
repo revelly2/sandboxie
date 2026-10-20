@@ -29,9 +29,6 @@ const AdminLayout = () => {
           <NavLink to="/admin/quizzes" className={({ isActive }) => isActive ? 'admin-nav-link active' : 'admin-nav-link'}>
             Quizzes
           </NavLink>
-          <NavLink to="/admin/simulations" className={({ isActive }) => isActive ? 'admin-nav-link active' : 'admin-nav-link'}>
-            Simulations
-          </NavLink>
         </nav>
         <div className="admin-footer-nav">
           <button className="admin-logout-btn" onClick={handleLogout}>
