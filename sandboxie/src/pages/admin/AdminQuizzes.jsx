@@ -54,6 +54,15 @@ const AdminQuizzes = () => {
       console.error('Error fetching quiz_scores:', err);
     }
 
+    // Try fetching profiles to match user_id with student name/email
+    let profilesMap = {};
+    try {
+      const { data: profs } = await supabase.from('profiles').select('id, email, full_name');
+      if (profs) {
+        profs.forEach(p => { profilesMap[p.id] = p; });
+      }
+    } catch (_err) {}
+
     // Merge with local submissions log for richer student metadata (e.g. emails)
     let localSubmissions = [];
     try {
@@ -66,10 +75,15 @@ const AdminQuizzes = () => {
     remoteScores.forEach(r => {
       const exists = combined.some(c => c.id === r.id || (c.user_id === r.user_id && Math.abs(new Date(c.created_at) - new Date(r.created_at)) < 5000));
       if (!exists) {
+        const studentProfile = profilesMap[r.user_id];
+        const studentIdentifier = studentProfile?.full_name
+          ? `${studentProfile.full_name} (${studentProfile.email})`
+          : (studentProfile?.email || `Student (${r.user_id?.slice(0, 8)}...)`);
+
         combined.push({
           id: r.id,
           user_id: r.user_id,
-          user_email: `Student (${r.user_id?.slice(0, 8)}...)`,
+          user_email: studentIdentifier,
           module: `Module ${r.module_id}`,
           quiz_title: `Module ${r.module_id} Quiz`,
           score: r.score,

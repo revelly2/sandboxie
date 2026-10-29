@@ -45,6 +45,9 @@ const Profile = () => {
     });
 
     if (!error) {
+      try {
+        await supabase.from('profiles').update({ full_name: displayName }).eq('id', user.id);
+      } catch (_e) {}
       setSaved(true);
       setTimeout(() => setSaved(false), 3000);
     }

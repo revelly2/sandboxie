@@ -38,7 +38,7 @@ const Register = () => {
     setError(null);
     setSuccess(false);
     
-    const { error } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
       options: {
@@ -51,6 +51,16 @@ const Register = () => {
     if (error) {
       setError(error.message);
     } else {
+      if (data?.user) {
+        try {
+          await supabase.from('profiles').upsert({
+            id: data.user.id,
+            email: data.user.email,
+            full_name: name,
+            role: 'student'
+          });
+        } catch (_e) {}
+      }
       setSuccess(true);
       setTimeout(() => navigate('/login'), 2500);
     }
